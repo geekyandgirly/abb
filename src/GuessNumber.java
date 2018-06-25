@@ -35,13 +35,11 @@ public class GuessNumber {
                     // same num at same index
 //                    System.out.println("match num " + guess[i] + " at index " + i);
                     res[0] ++;
-                } else if (res[0] > 0 && (res[0] + res[1]) < set.size()) {
-//                    System.out.println("found num " + guess[i] + " at index " + i);
-                    res[1] ++;
                 }
             }
         }
-//        System.out.println("answer: " + answer + " guess: " + intArrToString(guess) + " res: " + res[0] + " " + res[1]);
+
+//      System.out.println("answer: " + answer + " guess: " + intArrToString(guess) + " res: " + res[0] + " " + res[1]);
         return res;
     }
 
@@ -109,7 +107,7 @@ public class GuessNumber {
         GuessNumber server = new GuessNumber("1234");
         server.guess();
 
-        server = new GuessNumber("2326");
+        server = new GuessNumber("3262");
         server.guess();
 
 
