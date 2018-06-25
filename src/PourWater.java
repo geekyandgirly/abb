@@ -1,70 +1,46 @@
 public class PourWater {
 
+    private int findLeftIndex(int[] heights, int k) {
+        int left = k;
+        int height = heights[k];
+        for (int i = k - 1; i >= 0; i--) {
+            if (heights[i] < height) {
+                left = i;
+                height = heights[i];
+            } else if (heights[i] > height) {
+                break;
+            }
+        }
+        return left;
+    }
+
+    private int findRightIndex(int[] heights, int k) {
+        int right = k;
+        int height = heights[k];
+        for (int i = k + 1; i < heights.length; i++) {
+            if (heights[i] < height) {
+                right = i;
+                height = heights[i];
+            } else if (heights[i] > height) {
+                break;
+            }
+        }
+        return right;
+    }
+
     public int[] pourWater(int[] heights, int vol, int k) {
 
         while (vol > 0) {
-            int left = k - 1;
-
-            // First check if can fall on left
-            int currHeight = heights[k];
-            boolean filled = false;
-            while (left >= -1) {
-                if (left > -1 && heights[left] <= currHeight) {
-                    currHeight = heights[left];
-                    left--;
-                } else {
-                    // we either hit head of array (left == -1) or found a bump.
-                    left++;
-
-                    // find left most bump. Now going right until hit a bump because there could be several flat spots
-                    while (left < k && heights[left] == heights[left + 1]) {
-                        left ++;
-                    }
-                    if (left < k) {
-                        heights[left]++;
-                        filled = true;
-                    }
-                    // if we get here it means everything on the left is same height as heights[k].
-                    break;
-                }
+            int left = findLeftIndex(heights, k);
+            if (left != k) {
+                heights[left]++;
+            } else {
+                int right = findRightIndex(heights, k);
+                heights[right]++;
             }
 
-            if (filled) {
-                vol--;
-                continue;
-            }
-
-            // Now check right side if last drop is not filled yet.
-            int right = k + 1;
-            currHeight = heights[k];
-
-            while (right <= heights.length) {
-                if (right != heights.length && heights[right] <= currHeight) {
-                    currHeight = heights[right];
-                    right++;
-                } else {
-                    // hit end of array or a bump
-                    right--;
-
-                    // find left most bump. Now going right until hit a bump because there could be several flat spots
-                    while (right > k && heights[right] == heights[right - 1]) {
-                        right --;
-                    }
-                    if (right > k) {
-                        heights[right]++;
-                        filled = true;
-                    }
-                    // if we get here it means everything on the right is same height as heights[k].
-                    break;
-                }
-            }
-
-            if (!filled) {
-                heights[k]++;
-            }
             vol--;
         }
-
         return heights;
     }
 }
