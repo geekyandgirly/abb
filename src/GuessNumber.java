@@ -25,21 +25,21 @@ public class GuessNumber {
         }
     }
 
-    private int[] server(int[] guess) {
+    private int server(int[] guess) {
         count++;
-        int[] res = new int[2];
+        int res = 0;
         for (int i = 0; i < guess.length; i++) {
             if (answerMap.containsKey(guess[i])) {
                 Set<Integer> set = answerMap.get(guess[i]);
                 if (set.contains(i)) {
                     // same num at same index
 //                    System.out.println("match num " + guess[i] + " at index " + i);
-                    res[0] ++;
+                    res ++;
                 }
             }
         }
 
-//      System.out.println("answer: " + answer + " guess: " + intArrToString(guess) + " res: " + res[0] + " " + res[1]);
+//      System.out.println("answer: " + answer + " guess: " + intArrToString(guess) + " res: " + res);
         return res;
     }
 
@@ -52,16 +52,16 @@ public class GuessNumber {
         int g = 1;
         while (g <= 6) {
             int[] guess = new int[] {g, g, g, g};
-            int[] res = server(guess);
-            if (res[0] == 4) {
+            int res = server(guess);
+            if (res == 4) {
                 System.out.println("Count: " + count + " Guessed lucky: " + intArrToString(guess));
                 return;
             }
-            if (res[0] > 0 || res[1] > 0) {
+            if (res > 0) {
                 if (guessMap.containsKey(g)) {
-                    guessMap.put(g, guessMap.get(g) + res[0] + res[1]);
+                    guessMap.put(g, guessMap.get(g) + res);
                 } else {
-                    guessMap.put(g, res[0] + res[1]);
+                    guessMap.put(g, res);
                 }
             }
             g++;
@@ -88,8 +88,8 @@ public class GuessNumber {
                 int[] guess = new int[4];
                 if (answer[i] == 0) {
                     guess[i] = num;
-                    int[] res = server(guess);
-                    if (res[0] == 1) {
+                    int res = server(guess);
+                    if (res == 1) {
                         answer[i] = num;
                         totalGuessed++;
                         if (totalGuessed == 4) {
