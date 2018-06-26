@@ -16,8 +16,7 @@ public class AlienDict {
 
         String prev = words[0];
         if (words.length == 1) {
-            if (prev.length() == 0) return "";
-            return prev.substring(0,1);
+            return prev;
         }
 
         Map<Character, Set<Character>> ord = new HashMap<>();
@@ -63,8 +62,7 @@ public class AlienDict {
 
         // the case where every word is the same.
         if (ord.isEmpty()) {
-            String w = words[0];
-            return w.length() == 0 ? "" : w.substring(0,1);
+            return words[0];
         }
 
         Set<Character> ordKeys = ord.keySet();
