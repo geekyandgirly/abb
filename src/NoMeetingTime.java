@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.PriorityQueue;
 
 public class NoMeetingTime {
     static class Interval {
@@ -25,18 +24,15 @@ public class NoMeetingTime {
             System.out.print("[" + inter.start + ", " + inter.end + "], ");
         }
 
-        PriorityQueue<Integer> q = new PriorityQueue<>();
-        q.offer(intervals[0].end);
+        int nextFreeTime = intervals[0].end;
 
         for (int i = 1; i < intervals.length; i++) {
-            int nextFreeTime = q.isEmpty() ? Integer.MAX_VALUE : q.peek();
             if (intervals[i].start > nextFreeTime) {
                 ret.add(new Interval(nextFreeTime, intervals[i].start));
             }
 
             if (intervals[i].end > nextFreeTime) {
-                if (!q.isEmpty())  q.poll();
-                q.offer(intervals[i].end);
+                nextFreeTime = intervals[i].end;
             }
         }
 
@@ -48,7 +44,7 @@ public class NoMeetingTime {
                 new Interval(1,3),
                 new Interval(6,7),
                 new Interval(2,4),
-                new Interval(2,5),
+                new Interval(2,3),
                 new Interval(9,12)
         };
 
