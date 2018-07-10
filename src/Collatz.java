@@ -1,5 +1,3 @@
-package practice;
-
 import java.util.HashMap;
 
 public class Collatz {
