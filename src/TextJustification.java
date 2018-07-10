@@ -1,63 +1,89 @@
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 public class TextJustification {
 
-    public List<String> fullJustify(String[] words, int maxWidth) {
-        List<String> result = new LinkedList<>();
-        int i = 0;
-        while(i < words.length){
-            int wordCnt = 0;
-            int width = 0;
-            int startIdx = i;
-            while(i < words.length){
-                width += words[i].length();
-                wordCnt++;
-                if(width + wordCnt - 1 <= maxWidth){
-                    i++;
-                }else{
-                    width -= words[i].length();
-                    wordCnt--;
-                    break;
+    public static List<String> fullJustify(String[] words, int maxWidth) {
+        // First pack each line greedy
+        List<String> ret = new ArrayList<>();
+        int count = 0;
+        StringBuilder line = new StringBuilder();
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i];
+//            System.out.println("processing: " + word + ", current line: " + line.toString());
+            if (word.length() > maxWidth) {
+                // handle special case here.
+                return ret;
+            }
+            line.append(word);
+            count += word.length();
+            if (i == words.length - 1) {
+                ret.add(justifySpaces(line.toString(), maxWidth, true));
+            } else {
+                if (count + words[i + 1].length() >= maxWidth) {
+                    ret.add(justifySpaces(line.toString(), maxWidth, false));
+                    line = new StringBuilder();
+                    count = 0;
+                } else {
+                    line.append(" ");
+                    count++;
                 }
             }
-            int endIdx = i - 1;
-
-            String oneline = arangespace(words, startIdx, endIdx, width, maxWidth - width);
-            result.add(oneline);
         }
-        return result;
+        return ret;
     }
 
-    private String arangespace(String[] words, int startIdx, int endIdx, int width, int spacecnt){
-        int wordCnt = endIdx - startIdx + 1;
-        StringBuilder sb = new StringBuilder();
+    private static String justifySpaces(String s, int maxWidth, boolean isLastLine) {
+        StringBuilder b = new StringBuilder();
+        String[] words = s.split(" ");
 
-        if(wordCnt == 1){//one word
-            sb.append(words[endIdx]);
-            for(int j = 0; j < spacecnt; j++) sb.append(" ");
-            return sb.toString();
-        }
-
-        //more than one word
-        int si = spacecnt / (wordCnt-1);
-        int sj = spacecnt % (wordCnt-1);
-        for(int wordi = startIdx; wordi <= endIdx; wordi++) {
-            sb.append(words[wordi]);
-            if (endIdx == words.length - 1) {//last line
-                sb.append(" ");
-                spacecnt--;
-                if (wordi == endIdx) {
-                    for (int j = 0; j < spacecnt; j++) sb.append(" ");
+        // if it's last line or it's only one word
+        if (isLastLine || words.length == 1) {
+            b.append(s);
+            for (int j = 0; j < maxWidth - s.length(); j++) {
+                b.append(" ");
+            }
+        } else {
+            int spaceCnt = maxWidth - s.length() + words.length - 1;
+            int sEven = spaceCnt / (words.length - 1);
+            int sExtra = spaceCnt % (words.length - 1);
+            System.out.println("spaceCount= " + spaceCnt + " sEven=" + sEven +" sExtra=" + sExtra);
+            for (int i = 0; i < words.length - 1; i++) {
+                b.append(words[i]);
+                for (int j = 0; j < sEven; j++) {
+                    b.append(" ");
                 }
-            } else {//other line
-                if (wordi != endIdx) {
-                    for (int j = 0; j < si; j++) sb.append(" ");
-                    if (sj > 0) sb.append(" ");
-                    sj--;
+                if (sExtra > 0) {
+                    b.append(" ");
+                    sExtra--;
                 }
             }
+            b.append(words[words.length - 1]);
         }
-        return sb.toString();
+        return b.toString();
+    }
+
+    public static void main(String[] args) {
+        String[] words = new String[]{"What","must","be","acknowledgment","shall","be"};
+        List<String> justified = fullJustify(words, 16);
+        for (String s : justified) {
+            System.out.println("\"" + s + "\"");
+        }
+
+        words = new String[]{"Science","is","what","we","understand","well","enough","to","explain",
+                "to","a","computer.","Art","is","everything","else","we","do"};
+
+        justified = fullJustify(words, 20);
+        for (String s : justified) {
+            System.out.println("\"" + s + "\"");
+        }
+
+//        String s = "[{text: \"first word\"}, {text:\"my second sentence\"}, {text:\"now it's third\"}]";
+//        JSONArray jsonArray = new JSONArray(s);
+//        List<String> text = new ArrayList<>();
+//        for (int i = 0; i < jsonArray.length(); i++) {
+//            JSONObject object = (JSONObject) jsonArray.get(i);
+//            text.add(object.getString("text"));
+//        }
     }
 }
