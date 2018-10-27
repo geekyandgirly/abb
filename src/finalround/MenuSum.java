@@ -1,15 +1,12 @@
-import java.util.*;
+package finalround;
 
-/**
- * Given a menu (list of dishes and prices), find all possible combinations of items that sum a particular value K.
- * Can order the same dish multiple times.
- *
- * This is a typical combination sum problem.
- */
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MenuSum {
     public static List<List<Integer>> sum(float[] nums, float sum) {
         int[] intNums = new int[nums.length];
-
         for (int i = 0; i < nums.length; i++) {
             intNums[i] = (int) (nums[i] * 100);
         }
@@ -22,7 +19,6 @@ public class MenuSum {
     }
 
     private static void sum(int[] nums, List<List<Integer>> ret, List<Integer> list, int remaining, int index) {
-        System.out.println("remaining: " + remaining + ", index: " + index);
         if (remaining == 0) {
             ret.add(new ArrayList<>(list));
             return;
@@ -33,9 +29,8 @@ public class MenuSum {
         }
 
         for (int i = index; i < nums.length; i++) {
-            if (nums[i] > remaining) break;
+            if (nums[i] > remaining) continue;
             list.add(nums[i]);
-
             sum(nums, ret, list, remaining - nums[i], i);
             if (list.size() > 0) {
                 list.remove(list.size() - 1);
@@ -59,4 +54,5 @@ public class MenuSum {
 
         printResult(sum(nums, 5.44f));
     }
+
 }

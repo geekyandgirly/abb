@@ -2,6 +2,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 
+/**
+ * Given a list of meetings (startTime, endTime), find a list of intervals that are available for meetings.
+ * Basically find free time from given schedules.
+ */
 public class NoMeetingTime {
     static class Interval {
         int start;

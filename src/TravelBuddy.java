@@ -1,5 +1,13 @@
 import java.util.*;
 
+/**
+ * You and your friends each has a list of cities you wishes to visit. If 50% of city in a friend's
+ * wish list is the same as your, then you two are travel buddies. Now given a list of friends and
+ * their wish list of cities to visit, output all travel buddies. Follow up: recommend up to n cities
+ * from your travel buddies' wish list that's not in your wish list.
+ *
+ * This is basically practicing how to do intersection / exclusive of sets.
+ */
 public class TravelBuddy {
 
     public static List<Buddy> travelBuddy(Set<String> mySet, Map<String, Set<String>> friendsSets) {

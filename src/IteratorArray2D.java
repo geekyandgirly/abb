@@ -5,6 +5,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 
+/**
+ *
+ */
 public class IteratorArray2D implements Iterator<Integer> {
 	private final Iterator<List<Integer>> rowIter;
 	private Iterator<Integer> colIter;

@@ -1,5 +1,8 @@
 import java.util.LinkedList;
 
+/**
+ * Implement a queue using int[] with int array size limit to 5. Queue size is not limited.
+ */
 public class ArrayQueue {
 	private static int ARR_SIZE = 5;
 	static class Node {
