@@ -4,7 +4,7 @@ import java.util.*;
  * Given a menu (list of dishes and prices), find all possible combinations of items that sum a particular value K.
  * Can order the same dish multiple times.
  *
- * This is a typical combination sum problem.
+ * This is a typical combination sum problem using back tracking.
  */
 public class MenuSum {
     public static List<List<Integer>> sum(float[] nums, float sum) {
